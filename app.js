@@ -1,10 +1,12 @@
 require('dotenv').config()
+require('express-async-errors')
 const { json } = require('express')
 const express = require('express')
 const app = express()
 const errorHandlerMiddleware = require('./middleware/error-handler')
 const notFoundMiddleware = require('./middleware/not-found')
 const connectDB = require('./db/connect')
+const productRouter = require('./routes/products')
 ///middleware
 app.use(express.json())
 
@@ -12,7 +14,10 @@ app.use(express.json())
 app.get('/', (req, res)=>{
   res.send('In home <br> <a href="/api/v1/hotel"> api v1 </P>')
 })
-app.use('/api/v1/products',)
+
+app.use('/api/v1/products', productRouter)
+
+// app.use('/api/v1/products',)
 app.use(errorHandlerMiddleware)
 app.use(notFoundMiddleware)
 
@@ -27,4 +32,3 @@ const start = async () => {
   }
 }
 start()
-console.log('04 Store API')
